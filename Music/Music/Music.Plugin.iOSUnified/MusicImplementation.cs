@@ -1,10 +1,15 @@
-using Music.Plugin.Abstractions;
 using System;
-using MediaPlayer;
 using System.Collections.Generic;
 using System.Linq;
-using CoreGraphics;
+using Music.Plugin.Abstractions;
 
+#if __IOSUNIFIED__
+using MediaPlayer;
+using Foundation;
+#else
+using MonoTouch.MediaPlayer;
+using MonoTouch.Foundation;
+#endif
 
 namespace Music.Plugin
 {
@@ -13,6 +18,8 @@ namespace Music.Plugin
     /// </summary>
     public class MusicImplementation : IMusic
     {
+        bool _fireEvents;
+
         List<MPMediaItem> _mediaMusic;
 
         readonly List<MusicTrack> _playlist = new List<MusicTrack> ();
@@ -78,6 +85,15 @@ namespace Music.Plugin
 
                 return track;
             }
+
+            set
+            {
+                var item = _mediaMusic.FirstOrDefault (m => m.PersistentID.Equals (value.Id));
+                if (item != null)
+                {
+                    MPMusicPlayerController.ApplicationMusicPlayer.NowPlayingItem = item;
+                }
+            }
         }
 
         public double PlaybackPosition
@@ -94,6 +110,74 @@ namespace Music.Plugin
 
                 return position;
             }
+
+            set
+            {
+                MPMusicPlayerController.ApplicationMusicPlayer.CurrentPlaybackTime = value;
+            }
+        }
+
+        public float PlaybackSpeed
+        {
+            get
+            {
+                return MPMusicPlayerController.ApplicationMusicPlayer.CurrentPlaybackRate;
+            }
+            set
+            {
+                MPMusicPlayerController.ApplicationMusicPlayer.CurrentPlaybackRate = value;
+            }
+        }
+
+        public PlayerState PlaybackState
+        {
+            get
+            {
+                return MPMusicPlayerController.ApplicationMusicPlayer.PlaybackState.ToPlayerState ();
+            }
+        }
+
+        public bool FireEvents
+        {
+            get
+            {
+                return _fireEvents;
+            }
+
+            set
+            {
+                _fireEvents = value;
+
+                if (_fireEvents)
+                {
+                    MPMusicPlayerController.ApplicationMusicPlayer.BeginGeneratingPlaybackNotifications ();
+                }
+                else
+                {
+                    MPMusicPlayerController.ApplicationMusicPlayer.EndGeneratingPlaybackNotifications ();
+                }
+            }
+        }
+
+        public void Initialize (object context)
+        {
+            NSNotificationCenter.DefaultCenter.AddObserver (MPMusicPlayerController.NowPlayingItemDidChangeNotification,
+                delegate (NSNotification n) {
+                    if (PlaybackItemChanged != null && _fireEvents)
+                    {
+                        PlaybackItemChanged (this, new PlaybackStateEventArgs ());
+                    }
+                });
+
+            NSNotificationCenter.DefaultCenter.AddObserver (MPMusicPlayerController.PlaybackStateDidChangeNotification,
+                delegate (NSNotification n) {
+                    if (PlaybackStateChanged != null && _fireEvents)
+                    {
+                        PlaybackStateChanged (this, new PlaybackStateEventArgs ());
+                    }
+                });
+
+            FireEvents = true;
         }
 
         public void Play ()
@@ -164,7 +248,7 @@ namespace Music.Plugin
             MPMusicPlayerController.ApplicationMusicPlayer.SetQueue (new MPMediaItemCollection (mediaItemList.ToArray ()));
         }
 
-        public List<MusicTrack> GetExistingSongLibrary()
+        public List<MusicTrack> GetPlatformMusicLibrary()
         {
             return GetAllSongs ().Select (s => s.ToTrack ()).ToList ();
         }
@@ -182,10 +266,16 @@ namespace Music.Plugin
         {
             if (_mediaMusic == null)
             {
-                if (MPMediaQuery.SongsQuery.Items != null
-                    && MPMediaQuery.SongsQuery.Items.Length > 0)
+                MPMediaItem[] items;
+                #if __IOSUNIFIED__
+                items = MPMediaQuery.SongsQuery.Items;
+                #else
+                items = MPMediaQuery.songsQuery.Items;
+                #endif
+
+                if (items != null && items.Length > 0)
                 {
-                    _mediaMusic = MPMediaQuery.SongsQuery.Items.ToList ();
+                    _mediaMusic = items.ToList ();
                 }
                 else
                 {
@@ -194,33 +284,6 @@ namespace Music.Plugin
             }
 
             return _mediaMusic;
-        }
-    }
-
-    public static class Extensions
-    {
-        public static MusicTrack ToTrack (this MPMediaItem item)
-        {
-            var track = new MusicTrack
-            {
-                Id = item.PersistentID,
-                Filename = item.AssetURL != null ? item.AssetURL.AbsoluteString : string.Empty,
-                Name = item.Title,
-                Artist = item.Artist,
-                Album = item.AlbumTitle,
-                Seconds = item.PlaybackDuration
-            };
-
-            var ts = TimeSpan.FromSeconds (track.Seconds);
-            track.Length = string.Format("{0}:{1} min", ts.Minutes.ToString("D2"), ts.Seconds.ToString("D2"));
-
-            if (item.Artwork != null)
-            {
-                var thumb = item.Artwork.ImageWithSize (new CGSize (60, 60));
-                track.Image = thumb.AsPNG ().ToArray ();
-            }
-
-            return track;
         }
     }
 }

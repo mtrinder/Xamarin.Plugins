@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-
 using Music.Plugin.Abstractions;
+using System.Linq;
 
 namespace Music.Plugin
 {
@@ -32,11 +32,51 @@ namespace Music.Plugin
         public MusicTrack PlayingTrack
         {
             get { throw new NotImplementedException(); }
+            set {
+                throw new NotImplementedException ();
+            }
         }
 
         public double PlaybackPosition
         {
             get { throw new NotImplementedException(); }
+            set {
+                throw new NotImplementedException ();
+            }
+        }
+
+        public void Initialize (object context)
+        {
+            throw new NotImplementedException ();
+        }
+
+        public List<MusicTrack> GetPlatformMusicLibrary ()
+        {
+            return new List<MusicTrack> ();
+        }
+
+        public bool FireEvents {
+            get {
+                throw new NotImplementedException ();
+            }
+            set {
+                throw new NotImplementedException ();
+            }
+        }
+
+        public float PlaybackSpeed {
+            get {
+                throw new NotImplementedException ();
+            }
+            set {
+                throw new NotImplementedException ();
+            }
+        }
+
+        public PlayerState PlaybackState {
+            get {
+                throw new NotImplementedException ();
+            }
         }
 
         public List<MusicTrack> Playlist

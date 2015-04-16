@@ -2,6 +2,16 @@ using System;
 
 namespace Music.Plugin.Abstractions
 {
+    public enum PlayerState
+    {
+        Playing,
+        Paused,
+        Stopped,
+        Interrupted,
+        SeekingBack,
+        SeekingNext,
+        Unknown
+    }
 
     public class MusicTrack
     {
