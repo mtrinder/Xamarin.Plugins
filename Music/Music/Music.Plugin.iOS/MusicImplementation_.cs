@@ -1,10 +1,10 @@
-using Music.Plugin.Abstractions;
 using System;
-using MonoTouch.MediaPlayer;
-using System.Drawing;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-
+using MonoTouch.MediaPlayer;
+using Music.Plugin.Abstractions;
+using MonoTouch.Foundation;
 
 namespace Music.Plugin
 {
@@ -13,6 +13,8 @@ namespace Music.Plugin
     /// </summary>
     public class MusicImplementation : IMusic
     {
+        bool _fireEvents;
+
         List<MPMediaItem> _mediaMusic;
 
         readonly List<MusicTrack> _playlist = new List<MusicTrack> ();
@@ -94,6 +96,49 @@ namespace Music.Plugin
 
                 return position;
             }
+        }
+
+        public bool FireEvents
+        {
+            get
+            {
+                return _fireEvents;
+            }
+
+            set
+            {
+                _fireEvents = value;
+
+                if (_fireEvents)
+                {
+                    MPMusicPlayerController.ApplicationMusicPlayer.BeginGeneratingPlaybackNotifications ();
+                }
+                else
+                {
+                    MPMusicPlayerController.ApplicationMusicPlayer.EndGeneratingPlaybackNotifications ();
+                }
+            }
+        }
+
+        public void Initialize (object context)
+        {
+            NSNotificationCenter.DefaultCenter.AddObserver (MPMusicPlayerController.NowPlayingItemDidChangeNotification,
+                delegate (NSNotification n) {
+                    if (PlaybackItemChanged != null && _fireEvents)
+                    {
+                        PlaybackItemChanged (this, new PlaybackStateEventArgs ());
+                    }
+                });
+
+            NSNotificationCenter.DefaultCenter.AddObserver (MPMusicPlayerController.PlaybackStateDidChangeNotification,
+                delegate (NSNotification n) {
+                    if (PlaybackStateChanged != null && _fireEvents)
+                    {
+                        PlaybackStateChanged (this, new PlaybackStateEventArgs ());
+                    }
+                });
+
+            FireEvents = true;
         }
 
         public void Play ()
@@ -197,30 +242,4 @@ namespace Music.Plugin
         }
     }
 
-    public static class Extensions
-    {
-        public static MusicTrack ToTrack (this MPMediaItem item)
-        {
-            var track = new MusicTrack
-            {
-                Id = item.PersistentID,
-                Filename = item.AssetURL != null ? item.AssetURL.AbsoluteString : string.Empty,
-                Name = item.Title,
-                Artist = item.Artist,
-                Album = item.AlbumTitle,
-                Seconds = item.PlaybackDuration
-            };
-
-            var ts = TimeSpan.FromSeconds (track.Seconds);
-            track.Length = string.Format("{0}:{1} min", ts.Minutes.ToString("D2"), ts.Seconds.ToString("D2"));
-
-            if (item.Artwork != null)
-            {
-                var thumb = item.Artwork.ImageWithSize (new SizeF (60, 60));
-                track.Image = thumb.AsPNG ().ToArray ();
-            }
-
-            return track;
-        }
-    }
 }

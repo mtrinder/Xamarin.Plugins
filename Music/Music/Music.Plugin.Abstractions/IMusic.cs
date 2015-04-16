@@ -41,22 +41,42 @@ namespace Music.Plugin.Abstractions
         bool IsStopped { get; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether playback and state events will be fired.
+        /// </summary>
+        /// <value><c>true</c> if fire events; otherwise, <c>false</c>.</value>
+        bool FireEvents { get; set; }
+
+        /// <summary>
         /// Gets the playing track.
         /// </summary>
         /// <value>The playing track.</value>
-        MusicTrack PlayingTrack { get; }
+        MusicTrack PlayingTrack { get; set; }
 
         /// <summary>
         /// Gets the playback position.
         /// </summary>
         /// <value>The playback position.</value>
-        double PlaybackPosition { get; }
+        double PlaybackPosition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the playback speed between 0 and 1.
+        /// </summary>
+        /// <value>The playback speed.</value>
+        float PlaybackSpeed { get; set; }
+
+        /// <summary>
+        /// Gets the state of the playback.
+        /// </summary>
+        /// <value>The state of the playback.</value>
+        PlayerState PlaybackState { get; }
 
         /// <summary>
         /// Gets the current playlist.
         /// </summary>
         /// <value>The playlist.</value>
         List<MusicTrack> Playlist { get; }
+
+        void Initialize (object context);
 
         /// <summary>
         /// Play the current or first playlist track.
@@ -98,6 +118,6 @@ namespace Music.Plugin.Abstractions
         /// Gets the existing song library, if one exists.
         /// </summary>
         /// <returns>The existing song library.</returns>
-        List<MusicTrack> GetExistingSongLibrary ();
+        List<MusicTrack> GetPlatformMusicLibrary ();
     }
 }
