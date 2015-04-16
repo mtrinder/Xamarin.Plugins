@@ -56,7 +56,7 @@ namespace Music.Plugin.Abstractions
         /// Gets the current playlist.
         /// </summary>
         /// <value>The playlist.</value>
-        IEnumerable<MusicTrack> Playlist { get; }
+        List<MusicTrack> Playlist { get; }
 
         /// <summary>
         /// Play the current or first playlist track.
@@ -87,7 +87,7 @@ namespace Music.Plugin.Abstractions
         /// Queues a playlist ready to be played.
         /// </summary>
         /// <param name="playlist">Playlist.</param>
-        void QueuePlaylist (IEnumerable<MusicTrack> playlist);
+        void QueuePlaylist (List<MusicTrack> playlist);
 
         /// <summary>
         /// Stop playing and clear playlist.
@@ -98,6 +98,6 @@ namespace Music.Plugin.Abstractions
         /// Gets the existing song library, if one exists.
         /// </summary>
         /// <returns>The existing song library.</returns>
-        IEnumerable<MusicTrack> GetExistingSongLibrary ();
+        List<MusicTrack> GetExistingSongLibrary ();
     }
 }

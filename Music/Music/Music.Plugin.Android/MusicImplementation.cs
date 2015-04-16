@@ -16,90 +16,72 @@ namespace Music.Plugin
 
         public bool IsPlaying
         {
-            get
-            {
-                throw new NotImplementedException ();
-            }
+            get { throw new NotImplementedException(); }
         }
 
         public bool IsPaused
         {
-            get
-            {
-                throw new NotImplementedException ();
-            }
+            get { throw new NotImplementedException(); }
         }
 
         public bool IsStopped
         {
-            get
-            {
-                throw new NotImplementedException ();
-            }
+            get { throw new NotImplementedException(); }
         }
 
         public MusicTrack PlayingTrack
         {
-            get
-            {
-                throw new NotImplementedException ();
-            }
+            get { throw new NotImplementedException(); }
         }
 
         public double PlaybackPosition
         {
-            get
-            {
-                throw new NotImplementedException ();
-            }
+            get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<MusicTrack> Playlist
+        public List<MusicTrack> Playlist
         {
-            get
-            {
-                throw new NotImplementedException ();
-            }
+            get { throw new NotImplementedException(); }
         }
 
-        public void Play ()
+        public void Play()
         {
-            throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
 
-        public void Pause ()
+        public void Pause()
         {
-            throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
 
-        public void Stop ()
+        public void Stop()
         {
-            throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
 
-        public void SkipToNext ()
+        public void SkipToNext()
         {
-            throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
 
-        public void SkipToPrevious ()
+        public void SkipToPrevious()
         {
-            throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
 
-        public void QueuePlaylist (IEnumerable<MusicTrack> playlist)
+        public void QueuePlaylist(List<MusicTrack> playlist)
         {
-            throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
 
-        public void Reset ()
+        public void Reset()
         {
-            Stop ();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<MusicTrack> GetExistingSongLibrary ()
+        public List<MusicTrack> GetExistingSongLibrary()
         {
-            throw new NotImplementedException ();
+            throw new NotImplementedException();
         }
     }
 }

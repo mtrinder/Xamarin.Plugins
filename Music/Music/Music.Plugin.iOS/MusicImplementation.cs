@@ -15,13 +15,13 @@ namespace Music.Plugin
     {
         List<MPMediaItem> _mediaMusic;
 
-        List<MusicTrack> _playlist = new List<MusicTrack> ();
+        readonly List<MusicTrack> _playlist = new List<MusicTrack> ();
 
         public event EventHandler<PlaybackStateEventArgs> PlaybackStateChanged;
 
         public event EventHandler<PlaybackStateEventArgs> PlaybackItemChanged;
 
-        public IEnumerable<MusicTrack> Playlist
+        public List<MusicTrack> Playlist
         {
             get
             {
@@ -146,7 +146,7 @@ namespace Music.Plugin
             }
         }
 
-        public void QueuePlaylist (IEnumerable<MusicTrack> playlist)
+        public void QueuePlaylist(List<MusicTrack> playlist)
         {
             _playlist.Clear ();
             _playlist.AddRange (playlist);
@@ -164,7 +164,7 @@ namespace Music.Plugin
             MPMusicPlayerController.ApplicationMusicPlayer.SetQueue (new MPMediaItemCollection (mediaItemList.ToArray ()));
         }
 
-        public IEnumerable<MusicTrack> GetExistingSongLibrary ()
+        public List<MusicTrack> GetExistingSongLibrary()
         {
             return GetAllSongs ().Select (s => s.ToTrack ()).ToList ();
         }
@@ -178,7 +178,7 @@ namespace Music.Plugin
             MPMusicPlayerController.ApplicationMusicPlayer.NowPlayingItem = null;
         }
 
-        List<MPMediaItem> GetAllSongs()
+        IEnumerable<MPMediaItem> GetAllSongs()
         {
             if (_mediaMusic == null)
             {
