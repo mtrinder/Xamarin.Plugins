@@ -250,7 +250,7 @@ namespace Music.Plugin
 
         public List<MusicTrack> GetPlatformMusicLibrary()
         {
-            return GetAllSongs ().Select (s => s.ToTrack ()).ToList ();
+            return GetAllSongs ().Select (s => s.ToTrack ()).Where (s => s != null).ToList ();
         }
 
         public void Reset ()
