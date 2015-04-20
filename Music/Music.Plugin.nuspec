@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
    <metadata minClientVersion="2.8.1">
-       <id>YourName.Plugin.Music</id>
+       <id>Xam.Plugin.Music</id>
        <version>1.0.0.0</version>
        <title>Music Plugin for Xamarin and Windows</title>
-       <authors>Your Name</authors>
-       <owners>Your Name</owners>
-       <licenseUrl></licenseUrl>
-       <projectUrl></projectUrl>
-     <!--Default Icon, a template can be found:  https://raw.githubusercontent.com/jamesmontemagno/Xamarin-Templates/master/Plugins-Templates/icons/plugin_icon.png-->  
-     <iconUrl>https://raw.githubusercontent.com/jamesmontemagno/Xamarin-Templates/master/Plugins-Templates/icons/plugin_icon_nuget.png</iconUrl>
-     
+       <authors>Mark Trinder</authors>
+       <owners>Mark Trinder</owners>
+       <licenseUrl>https://github.com/mtrinder/Xamarin.Plugins/blob/master/LICENSE</licenseUrl>
+       <projectUrl>https://github.com/mtrinder/Xamarin.Plugins</projectUrl>
+       <iconUrl>http://www.refractored.com/images/connectivity_icon.png</iconUrl>
        <requireLicenseAcceptance>false</requireLicenseAcceptance>
        <description>
          Long description for your plugin.
