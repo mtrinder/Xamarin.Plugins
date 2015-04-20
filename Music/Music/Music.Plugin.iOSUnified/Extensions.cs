@@ -28,6 +28,9 @@ namespace Music.Plugin
 
         public static MusicTrack ToTrack (this MPMediaItem item)
         {
+            if (item == null)
+                return null;
+            
             var track = new MusicTrack
             {
                 Id = item.PersistentID,
@@ -44,7 +47,10 @@ namespace Music.Plugin
             if (item.Artwork != null)
             {
                 var thumb = item.Artwork.ImageWithSize (new CGSize (60, 60));
-                track.Image = thumb.AsPNG ().ToArray ();
+                if (thumb != null)
+                {
+                    track.Image = thumb.AsPNG ().ToArray ();
+                }
             }
 
             return track;
