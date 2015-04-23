@@ -3,41 +3,30 @@ using System;
 
 namespace Version.Plugin
 {
-  /// <summary>
-  /// Cross platform Version implemenations
-  /// </summary>
-  public class CrossVersion
-  {
-    static readonly Lazy<IVersion> Implementation = new Lazy<IVersion>(CreateVersion, System.Threading.LazyThreadSafetyMode.PublicationOnly);
-
     /// <summary>
-    /// Current settings to use
+    /// Cross platform Version implemenations
     /// </summary>
-    public static IVersion Current
+    public class CrossVersion
     {
-      get
-      {
-        var ret = Implementation.Value;
-        if (ret == null)
+        static readonly Lazy<IVersion> Implementation = new Lazy<IVersion>(() =>
+            #if PORTABLE
+                null,
+            #else
+                new VersionImplementation(),
+            #endif
+              System.Threading.LazyThreadSafetyMode.PublicationOnly);
+
+        public static IVersion Current
         {
-          throw NotImplementedInReferenceAssembly();
+            get
+            {
+                var version = Implementation.Value;
+                if (version == null)
+                {
+                    throw new NotImplementedException("Don't use CrossVersion from your PCL without first installing the NuGet package in your main project.");
+                }
+                return version;
+            }
         }
-        return ret;
-      }
     }
-
-    static IVersion CreateVersion()
-    {
-#if PORTABLE
-        return null;
-#else
-        return new VersionImplementation();
-#endif
-    }
-
-    internal static Exception NotImplementedInReferenceAssembly()
-    {
-      return new NotImplementedException("This functionality is not implemented in the portable version of this assembly.  You should reference the NuGet package from your main application project in order to reference the platform-specific implementation.");
-    }
-  }
 }
