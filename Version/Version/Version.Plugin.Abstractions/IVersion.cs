@@ -7,5 +7,9 @@ namespace Version.Plugin.Abstractions
   /// </summary>
   public interface IVersion
   {
+      /// <summary>
+      /// Current App Version
+      /// </summary>
+      string Version { get; }
   }
 }

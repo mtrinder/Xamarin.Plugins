@@ -109,6 +109,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Version.Plugin.WindowsPhone81\PackageReader.cs">
+      <Link>PackageReader.cs</Link>
+    </Compile>
     <Compile Include="..\Version.Plugin\CrossVersion.cs">
       <Link>CrossVersion.cs</Link>
     </Compile>

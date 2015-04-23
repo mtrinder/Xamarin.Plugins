@@ -8,7 +8,7 @@ namespace Version.Plugin
   /// </summary>
   public class CrossVersion
   {
-    static Lazy<IVersion> Implementation = new Lazy<IVersion>(() => CreateVersion(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+    static readonly Lazy<IVersion> Implementation = new Lazy<IVersion>(CreateVersion, System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
     /// <summary>
     /// Current settings to use
