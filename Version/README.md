@@ -1,10 +1,10 @@
 #Xamarin Plugins
 
-Xamarin Plugins are a special kind of NuGet package which let you easily add cross-platform functionality to your apps. Using NuGet to distribute Plugins means that anyone can create them, and of course consume them. The platforms supported by Plugins include Android, iOS, iOS Unified (64bit), Windows Phone 8, Windows Phone 8.1 RT and Windows Store.
+Xamarin Plugins are a special kind of NuGet package that let you easily add cross-platform functionality to your apps. Using NuGet to distribute Plugins means that anyone can create them, and of course consume them. The platforms supported by Plugins include Android, iOS, iOS Unified (64bit), Windows Phone 8, Windows Phone 8.1 RT and Windows Store.
 
 > Plugins abstract common device functionality or expose cross-platform APIs via a single interface
 
-Plugins are small, have few or no dependencies, and provide a simple mechanism for accessing a single device function. The following table represents some of the features you would expect to find on modern mobile devices.  
+Plugins are small, have few or no dependencies, and provide a simple mechanism for accessing a single device feature. The following table represents some of the features you would expect to find on modern mobile devices.  
 
 | OS Level ||||
 |:------------- |:------------- |:------------- |:------------- |:------------- |
@@ -18,11 +18,11 @@ The aim of a Plugin is to expose one such feature using an object singleton, acc
 
 > But they can be by following the Component creation and publishing [guidelines](http://en.wikipedia.org/wiki/Service_locator_pattern).
 
-A Xamarin Component gives a developer the opportunity to disrtibute cross-platform libraries together in one neat package. When you install the Component within your mobile project the correct implementation is installed.
+A Xamarin Component gives developers the opportunity to disrtibute cross-platform libraries together in one neat package. When you install the Component within your Xamarin mobile project the correct implementation is installed.
 
-Components typically differ from Plugins in two main ways,  
+Components typically differ from Plugins in two ways,  
 
-* they tend to be used to offer cross-platform functionality at the UI level
+* they are used to offer cross-platform functionality at the UI level
 * and they deeply integrate into each platform they target
 
 These differences usually result in diverging API implementations on each platform. As a consequence the use of the API becomes tightly coupled to each platform. In addition, very few Components target all of iOS, Android and Windows. Plugins, on the other hand, strive for a true cross-platform offering through one common API.
@@ -41,11 +41,11 @@ Many Plugins have already been published so definitely checkout the packages rep
 
 ###Cross-platform "Version"
 
-It's common in almost every app to show the current version. Each platform uses a different approach for storing and retrieving this information, so abstracting this simple function with a Plugin makes sense.  
+It's common in almost every app to show the current version. Each platform uses a different approach for storing and retrieving this information, so abstracting this simple feature with a Plugin makes sense.  
 
 ####Quick Setup
 
-* Check your NuGet [Package Manager](https://visualstudiogallery.msdn.microsoft.com/27077b70-9dad-4c64-adcf-c7cf6bc9970c) is up to date. Ensure version 2.8.3
+* Check your NuGet [Package Manager](https://visualstudiogallery.msdn.microsoft.com/27077b70-9dad-4c64-adcf-c7cf6bc9970c) is up to date. Ensure minimum version 2.8.3
 * Download and Install the [Xamarin Plugin Template](https://visualstudiogallery.msdn.microsoft.com/afead421-3fbf-489a-a4e8-4a244ecdbb1e) for Visual Studio
 * Create a project using the new Plugin template. The name of the solution needs to be simple because it will used throughout the Plugin code structure as a prefix and postfix for classes and file names.
 
@@ -55,7 +55,7 @@ With all projects created and initialized the screen shot below shows what your 
 
 ![](ScreenShot2.png)
 
-The project called Version.Plugin.Abstractions is where we need to define the common API Interface. If you expand this project's file structure you will see that an empty Interface has already been created for you by the template. For this walkthtough our Interface is called IVersion.  
+The project called Version.Plugin.Abstractions is where we need to define the common API Interface. If you expand this project's file structure you will see that an empty Interface has already been created for you by the template. For this walkthtough our interface is called IVersion.  
 
 At a minimum this Plugin needs to return the app's version as a string, so we'll add a getter property to our API.
 
@@ -132,7 +132,7 @@ When the template created each platform specific project, it added an implementa
       }
     }
 
-The other platform implementations can be found in the sample code along with apps for testing each one.
+> The other platform implementations can be found in the sample code along with apps for testing each one.
 
 ####CrossVersion Class
 
@@ -142,9 +142,9 @@ Using the API is the same on each platform.
     
     Debug.WriteLine(version);
 
-As you can see the name of the class that exposes the API has the Plugin name as a postfix. This is the standard naming convention for accessing all Xamarin Plugins. A cross-platform Plugin for "battery status" would be called with a CrossBattery class.
+As you can see the name of the class that exposes the API has the Plugin name as a postfix. This is the standard naming convention for accessing all Xamarin Plugins. For example, a cross-platform Plugin for "battery status" would be accessed with a CrossBattery class.
 
-The CrossVersion class can be found in the first PCL called Version.Plugin. You may have noticed this class file is also linked into all of the platform specific projects. This simple yet powerful class ensures the correct IVersion implementation is loaded at runtime because it's compiled into each assembly.
+The CrossVersion class is located in the PCL called Version.Plugin. You may have noticed this class file is also linked into all of the platform specific projects. This simple yet powerful class ensures the correct IVersion implementation is loaded at runtime because it's compiled into each assembly.
 
     public class CrossVersion
     {
@@ -169,8 +169,6 @@ The CrossVersion class can be found in the first PCL called Version.Plugin. You 
             }
         }
     }
-
-"Current" is a lazy loaded static object of type VersionImplementation, exposed via IVersion.
 
 ##NuGet Deployment
 
@@ -223,9 +221,8 @@ Check the Plugin installs correctly and implementation works as expected.
 
 ![](ScreenShot10.png)
 
-
 **Publishing**
 
-Once you've fully tested you Plugin NuGet package use the command prompt and you account key to publish.
+Once you've fully tested the Plugin package use the command prompt and you account key to publish.
 
     nuget push Xam.Plugin.Version.1.0.0.0.nupkg xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
