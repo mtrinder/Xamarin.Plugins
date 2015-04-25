@@ -132,7 +132,7 @@ When the template created each platform specific project, it added an implementa
       }
     }
 
-> The other platform implementations can be found in the sample code along with apps for testing each one.
+> The other platform implementations can be found in the [sample code](https://github.com/mtrinder/Xamarin.Plugins/tree/master/Version/Version) along with [apps](https://github.com/mtrinder/Xamarin.Plugins/tree/master/Version/TestApps) for testing each one.
 
 ####CrossVersion Class
 
@@ -195,7 +195,7 @@ Make sure you fill in these required fields,
 
 ![](ScreenShot6.png)
 
-From a command prompt navigate to the Plugin root folder. Set your NuGet account key, which can be found on your NuGet account profile page.
+From a command prompt switch to the Plugin root folder. Set your NuGet account key, which can be found on your NuGet account profile page.
 
     nuget setapikey xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 
@@ -211,9 +211,11 @@ The output of this command is a NuPkg file with all of your Plugin assemblies pa
 
 Before releasing the package to the public you'll need to test it throughly. The best way is to create a test app project and install the Plugin with the NuGet package manager.
 
+Via the package manager settings, add another source location for the package manager to search.
+
 ![](ScreenShot8.png)
 
-Via the package manager settings, add another source location for the package manager to search. The source path will be the root folder of your Plugin.
+The source path will be the root folder of your Plugin.
 
 ![](ScreenShot9.png)
 
