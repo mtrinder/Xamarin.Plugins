@@ -47,6 +47,7 @@
     <Compile Include="..\Version.Plugin\CrossVersion.cs">
       <Link>CrossVersion.cs</Link>
     </Compile>
+    <Compile Include="PackageReader.cs" />
     <Compile Include="VersionImplementation.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

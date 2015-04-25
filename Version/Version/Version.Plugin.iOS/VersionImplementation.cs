@@ -1,3 +1,4 @@
+using System;
 using MonoTouch.Foundation;
 using Version.Plugin.Abstractions;
 
@@ -11,6 +12,9 @@ namespace Version.Plugin
       readonly NSString _buildKey;
       readonly NSString _versionKey;
 
+      /// <summary>
+      /// 
+      /// </summary>
       public VersionImplementation()
       {
           _buildKey = new NSString("CFBundleVersion");
@@ -24,9 +28,16 @@ namespace Version.Plugin
       {
           get
           {
-              var build = NSBundle.MainBundle.InfoDictionary.ValueForKey(_buildKey);
-              var version = NSBundle.MainBundle.InfoDictionary.ValueForKey(_versionKey);
-              return string.Format("{0}.{1}", version, build);
+              try
+              {
+                  var build = NSBundle.MainBundle.InfoDictionary.ValueForKey(_buildKey);
+                  var version = NSBundle.MainBundle.InfoDictionary.ValueForKey(_versionKey);
+                  return string.Format("{0}.{1}", version, build);
+              }
+              catch
+              {
+                  return string.Empty;
+              }
           }
       }
   }

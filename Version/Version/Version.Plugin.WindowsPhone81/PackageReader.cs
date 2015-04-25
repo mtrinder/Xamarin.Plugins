@@ -1,13 +1,21 @@
+using System;
 using Windows.ApplicationModel;
 
 namespace Version.Plugin
 {
-    public class PackageReader
+    internal class PackageReader
     {
         public static string GetAppVersion()
         {
-            var pv = Package.Current.Id.Version;
-            return string.Format("{0}.{1}.{2}.{3}", pv.Major, pv.Minor, pv.Revision, pv.Build);
+            try
+            {
+                var pv = Package.Current.Id.Version;
+                return string.Format("{0}.{1}.{2}.{3}", pv.Major, pv.Minor, pv.Revision, pv.Build);
+            }
+            catch
+            {
+                return string.Empty;    
+            }
         }
     }
 }

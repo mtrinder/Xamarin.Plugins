@@ -1,8 +1,9 @@
+using System;
 using System.Xml;
 
 namespace Version.Plugin
 {
-    public class ManifestReader
+    internal class ManifestReader
     {
         static XmlReaderSettings _xmlReaderSettings;
 
@@ -16,10 +17,17 @@ namespace Version.Plugin
                 };
             }
 
-            using (var xmlReader = XmlReader.Create("WMAppManifest.xml", _xmlReaderSettings))
+            try
             {
-                xmlReader.ReadToDescendant("App");
-                return xmlReader.GetAttribute("Version");
+                using (var xmlReader = XmlReader.Create("WMAppManifest.xml", _xmlReaderSettings))
+                {
+                    xmlReader.ReadToDescendant("App");
+                    return xmlReader.GetAttribute("Version");
+                }
+            }
+            catch
+            {
+                return string.Empty;
             }
         }
     }
