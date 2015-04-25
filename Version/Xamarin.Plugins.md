@@ -12,11 +12,13 @@ Plugins are small, have few or no dependencies, and provide a simple mechanism f
 | **Hardware Level** ||||
 | GPS | Network | Battery | Vibrate
 
-The aim of a Plugin is to expose one such feature using an object singleton, accessed through an Interface that abstracts the platform specific implementation on all platforms. This approach in synonymous with using Inversion of Control ([IoC]()) and the [Service Locator]() pattern to invoke platform specific code from within a shared project or a Portable Class Library ([PCL]()).
+The aim of a Plugin is to expose one such feature using an object singleton, accessed through an Interface that abstracts the platform specific implementation on all platforms. This approach in synonymous with using Inversion of Control ([IoC](http://en.wikipedia.org/wiki/Inversion_of_control)) and the [Service Locator]() pattern to invoke platform specific code from within a shared project or a Portable Class Library ([PCL](http://blogs.msdn.com/b/dotnet/archive/2013/10/14/portable-class-library-pcl-now-available-on-all-platforms.aspx)).
 
 ##Plugins Aren't Components
 
 > But they can be by following the Component creation and publishing [guidelines](http://en.wikipedia.org/wiki/Service_locator_pattern).
+
+A Xamarin Component gives a developer the opportunity to disrtibute cross-platform libraries together in one neat package. When you install the Component within your mobile project the correct implementation is installed.
 
 Components typically differ from Plugins in two main ways,  
 
@@ -68,7 +70,8 @@ At a minimum this Plugin needs to return the app's version as a string, so we'll
         string Version { get; }
     }
 
-That's it. With our API defined we just need to create concrete implementations for each targeted platform. When the template created each platform specific project, it added an implementation class with the name of your Plugin as the prefix.
+That's it. With our API defined we just need to create concrete implementations for each targeted platform.  
+When the template created each platform specific project, it added an implementation class with the name of your Plugin as the prefix. 
 
 **IVersion for iOS Implementation**
 
@@ -141,7 +144,7 @@ Using the API is the same on each platform.
 
 As you can see the name of the class that exposes the API has the Plugin name as a postfix. This is the standard naming convention for accessing all Xamarin Plugins. A cross-platform Plugin for "battery status" would be called with a CrossBattery class.
 
-The CrossVersion class can be found in the first portable class in solution explorer - Version.Plugin. You may have noticed this class file is also linked into all of the platform specific projects. This simple yet powerful class ensures the correct IVersion implementation is loaded at runtime because it's compiled into each assembly.
+The CrossVersion class can be found in the first PCL called Version.Plugin. You may have noticed this class file is also linked into all of the platform specific projects. This simple yet powerful class ensures the correct IVersion implementation is loaded at runtime because it's compiled into each assembly.
 
     public class CrossVersion
     {
@@ -171,3 +174,41 @@ The CrossVersion class can be found in the first portable class in solution expl
 
 ##NuGet Deployment
 
+Download NuGet.exe and add it to your solution root folder. This executable will be used via the command prompt.
+
+![](ScreenShot3.png)
+
+NuGet.exe needs a specifications file in order to package your assemblies correctly. Add a NuSpec file to the solution and fill in appropriate details. The Plugin template installed a new file type allowing you to add one with most of the details filled in.
+
+![](ScreenShot4.png)
+![](ScreenShot5.png)
+
+Make sure you fill in these required fields,
+
+* id
+* version
+* title
+* owners
+* authors
+* license and project urls
+* descriptions
+
+![](ScreenShot6.png)
+
+From a command prompt navigate to the Plugin root folder. Set your NuGet account key, which can be found on your NuGet account profile page.
+
+    nuget setapikey xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+Ensure your project configuration is in release mode and rebuild the solution. Then from the command prompt run the NuGet package command.
+
+    nuget pack Version.Plugin.nuspec
+
+The output of this command is a NuPkg file with all of your Plugin assemblies packaged together.
+
+![](ScreenShot7.png)
+
+Test
+
+Once you've fully tested you Plugin NuGet package use the command prompt and you account key to publish.
+
+    nuget push Xam.Plugin.Version.1.0.0.0.nupkg xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
