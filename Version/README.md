@@ -225,6 +225,6 @@ Check the Plugin installs correctly and implementation works as expected.
 
 **Publishing**
 
-Once you've fully tested the Plugin package use the command prompt and you account key to publish.
+Once you've fully tested the Plugin package, use the command prompt and your account key to publish.
 
     nuget push Xam.Plugin.Version.1.0.0.0.nupkg xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
