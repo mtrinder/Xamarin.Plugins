@@ -219,7 +219,7 @@ The source path will be the root folder of your Plugin.
 
 ![](ScreenShot9.png)
 
-Check the Plugin installs correctly and implementation works as expected.
+Check the Plugin installs correctly and the implementation works as expected.
 
 ![](ScreenShot10.png)
 
