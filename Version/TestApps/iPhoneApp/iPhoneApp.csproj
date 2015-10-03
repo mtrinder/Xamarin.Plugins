@@ -99,7 +99,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Xam.Plugin.Version.1.0.0.0\lib\MonoTouch10\Version.Plugin.dll</HintPath>
     </Reference>
-    <Reference Include="Version.Plugin.Abstractions">
+    <Reference Include="Version.Plugin.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Xam.Plugin.Version.1.0.0.0\lib\MonoTouch10\Version.Plugin.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
