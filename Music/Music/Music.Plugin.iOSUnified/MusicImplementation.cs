@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Music.Plugin.Abstractions;
+using CoreGraphics;
 
 #if __IOSUNIFIED__
 using MediaPlayer;
@@ -250,7 +251,7 @@ namespace Music.Plugin
 
         public List<MusicTrack> GetPlatformMusicLibrary()
         {
-            return GetAllSongs ().Select (s => s.ToTrack ()).Where (s => s != null).ToList ();
+            return GetAllSongs().Where(s => s != null).Select(s => s.ToTrack()).ToList();
         }
 
         public void Reset ()
@@ -260,6 +261,24 @@ namespace Music.Plugin
             _playlist.Clear ();
 
             MPMusicPlayerController.ApplicationMusicPlayer.NowPlayingItem = null;
+        }
+
+        public byte[] GetTrackImage(ulong id)
+        {
+            var imageBytes = new byte[0];
+            var item = _mediaMusic.FirstOrDefault(x => x.PersistentID.Equals(id));
+            if (item != null)
+            {
+                if (item.Artwork != null)
+                {
+                    var thumb = item.Artwork.ImageWithSize (new CGSize (60, 60));
+                    if (thumb != null)
+                    {
+                        return thumb.AsPNG ().ToArray ();
+                    }
+                }
+            }
+            return imageBytes;
         }
 
         IEnumerable<MPMediaItem> GetAllSongs()

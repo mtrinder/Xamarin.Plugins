@@ -44,15 +44,6 @@ namespace Music.Plugin
             var ts = TimeSpan.FromSeconds (track.Seconds);
             track.Length = string.Format("{0}:{1} min", ts.Minutes.ToString("D2"), ts.Seconds.ToString("D2"));
 
-            if (item.Artwork != null)
-            {
-                var thumb = item.Artwork.ImageWithSize (new CGSize (60, 60));
-                if (thumb != null)
-                {
-                    track.Image = thumb.AsPNG ().ToArray ();
-                }
-            }
-
             return track;
         }
     }

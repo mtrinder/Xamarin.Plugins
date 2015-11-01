@@ -119,5 +119,11 @@ namespace Music.Plugin.Abstractions
         /// </summary>
         /// <returns>The existing song library.</returns>
         List<MusicTrack> GetPlatformMusicLibrary ();
+
+        /// <summary>
+        /// Gets the track image.
+        /// </summary>
+        /// <returns>The track image.</returns>
+        byte[] GetTrackImage(ulong id);
     }
 }
