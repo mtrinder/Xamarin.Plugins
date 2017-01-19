@@ -10,7 +10,7 @@ namespace Version.Plugin
             try
             {
                 var pv = Package.Current.Id.Version;
-                return string.Format("{0}.{1}.{2}.{3}", pv.Major, pv.Minor, pv.Revision, pv.Build);
+                return string.Format("{0}.{1}.{2}.{3}", pv.Major, pv.Minor, pv.Build, pv.Revision);
             }
             catch
             {
